@@ -3,6 +3,8 @@
 <button *ngIf="isLoggedIn" type="button" (click)="logout()">Log out</button>
 <button *ngIf="!isLoggedIn" type="button" (click)="login()">Log in</button>
 
+<app-ure></app-ure>
+
 <ng-container *ngIf="userProfile">
   <h2>User information</h2>
   <table>

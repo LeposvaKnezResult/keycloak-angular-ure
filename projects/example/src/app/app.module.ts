@@ -4,6 +4,7 @@ import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -23,7 +24,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, KeycloakAngularModule],
+  imports: [BrowserModule, AppRoutingModule, MatDatepickerModuleKeycloakAngularModule],
   providers: [
     {
       provide: APP_INITIALIZER,
