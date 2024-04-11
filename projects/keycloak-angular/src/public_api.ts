@@ -8,7 +8,7 @@
 
 export {
   KeycloakEvent,
-  KeycloakEventType
+  KeycloakEventType,
 } from './lib/core/interfaces/keycloak-event';
 export { KeycloakOptions } from './lib/core/interfaces/keycloak-options';
 export { KeycloakAuthGuard } from './lib/core/services/keycloak-auth-guard';

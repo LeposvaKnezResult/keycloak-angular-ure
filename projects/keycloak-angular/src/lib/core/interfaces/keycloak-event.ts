@@ -45,7 +45,7 @@ export enum KeycloakEventType {
   /**
    * Called when a AIA has been requested by the application.
    */
-  OnActionUpdate
+  OnActionUpdate,
 }
 
 /**

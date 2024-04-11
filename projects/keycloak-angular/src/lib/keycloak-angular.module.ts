@@ -11,6 +11,6 @@ import { NgModule } from '@angular/core';
 import { CoreModule } from './core/core.module';
 
 @NgModule({
-  imports: [CoreModule]
+  imports: [CoreModule],
 })
 export class KeycloakAngularModule {}

@@ -11,7 +11,7 @@ import {
   HttpInterceptor,
   HttpRequest,
   HttpHandler,
-  HttpEvent
+  HttpEvent,
 } from '@angular/common/http';
 
 import { Observable, combineLatest, from, of } from 'rxjs';
@@ -38,7 +38,7 @@ export class KeycloakBearerInterceptor implements HttpInterceptor {
    * A promise boolean for the token update or noop result.
    */
   private async conditionallyUpdateToken(
-    req: HttpRequest<unknown>
+    req: HttpRequest<unknown>,
   ): Promise<boolean> {
     if (this.keycloak.shouldUpdateToken(req)) {
       return await this.keycloak.updateToken();
@@ -58,7 +58,7 @@ export class KeycloakBearerInterceptor implements HttpInterceptor {
    */
   private isUrlExcluded(
     { method, url }: HttpRequest<unknown>,
-    { urlPattern, httpMethods }: ExcludedUrlRegex
+    { urlPattern, httpMethods }: ExcludedUrlRegex,
   ): boolean {
     const httpTest =
       httpMethods.length === 0 ||
@@ -78,7 +78,7 @@ export class KeycloakBearerInterceptor implements HttpInterceptor {
    */
   public intercept(
     req: HttpRequest<unknown>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<unknown>> {
     const { enableBearerInterceptor, excludedUrls } = this.keycloak;
     if (!enableBearerInterceptor) {
@@ -94,13 +94,13 @@ export class KeycloakBearerInterceptor implements HttpInterceptor {
 
     return combineLatest([
       from(this.conditionallyUpdateToken(req)),
-      of(this.keycloak.isLoggedIn())
+      of(this.keycloak.isLoggedIn()),
     ]).pipe(
       mergeMap(([_, isLoggedIn]) =>
         isLoggedIn
           ? this.handleRequestWithTokenHeader(req, next)
-          : next.handle(req)
-      )
+          : next.handle(req),
+      ),
     );
   }
 
@@ -112,13 +112,13 @@ export class KeycloakBearerInterceptor implements HttpInterceptor {
    */
   private handleRequestWithTokenHeader(
     req: HttpRequest<unknown>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<unknown>> {
     return this.keycloak.addTokenToHeader(req.headers).pipe(
       mergeMap((headersWithBearer) => {
         const kcReq = req.clone({ headers: headersWithBearer });
         return next.handle(kcReq);
-      })
+      }),
     );
   }
 }

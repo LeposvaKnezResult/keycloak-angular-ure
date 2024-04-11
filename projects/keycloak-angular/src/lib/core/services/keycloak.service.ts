@@ -16,7 +16,7 @@ import Keycloak from 'keycloak-js';
 import {
   ExcludedUrl,
   ExcludedUrlRegex,
-  KeycloakOptions
+  KeycloakOptions,
 } from '../interfaces/keycloak-options';
 import { KeycloakEvent, KeycloakEventType } from '../interfaces/keycloak-event';
 
@@ -93,7 +93,7 @@ export class KeycloakService {
     this._instance.onAuthError = (errorData) => {
       this._keycloakEvents$.next({
         args: errorData,
-        type: KeycloakEventType.OnAuthError
+        type: KeycloakEventType.OnAuthError,
       });
     };
 
@@ -103,13 +103,13 @@ export class KeycloakService {
 
     this._instance.onAuthRefreshSuccess = () => {
       this._keycloakEvents$.next({
-        type: KeycloakEventType.OnAuthRefreshSuccess
+        type: KeycloakEventType.OnAuthRefreshSuccess,
       });
     };
 
     this._instance.onAuthRefreshError = () => {
       this._keycloakEvents$.next({
-        type: KeycloakEventType.OnAuthRefreshError
+        type: KeycloakEventType.OnAuthRefreshError,
       });
     };
 
@@ -119,21 +119,21 @@ export class KeycloakService {
 
     this._instance.onTokenExpired = () => {
       this._keycloakEvents$.next({
-        type: KeycloakEventType.OnTokenExpired
+        type: KeycloakEventType.OnTokenExpired,
       });
     };
 
     this._instance.onActionUpdate = (state) => {
       this._keycloakEvents$.next({
         args: state,
-        type: KeycloakEventType.OnActionUpdate
+        type: KeycloakEventType.OnActionUpdate,
       });
     };
 
     this._instance.onReady = (authenticated) => {
       this._keycloakEvents$.next({
         args: authenticated,
-        type: KeycloakEventType.OnReady
+        type: KeycloakEventType.OnReady,
       });
     };
   }
@@ -146,7 +146,7 @@ export class KeycloakService {
    * the url and HttpMethod.
    */
   private loadExcludedUrls(
-    bearerExcludedUrls: (string | ExcludedUrl)[]
+    bearerExcludedUrls: (string | ExcludedUrl)[],
   ): ExcludedUrlRegex[] {
     const excludedUrls: ExcludedUrlRegex[] = [];
     for (const item of bearerExcludedUrls) {
@@ -156,7 +156,7 @@ export class KeycloakService {
       } else {
         excludedUrl = {
           urlPattern: new RegExp(item.url, 'i'),
-          httpMethods: item.httpMethods
+          httpMethods: item.httpMethods,
         };
       }
       excludedUrls.push(excludedUrl);
@@ -178,7 +178,7 @@ export class KeycloakService {
     initOptions,
     updateMinValidity = 20,
     shouldAddToken = () => true,
-    shouldUpdateToken = () => true
+    shouldUpdateToken = () => true,
   }: KeycloakOptions): void {
     this._enableBearerInterceptor = enableBearerInterceptor;
     this._loadUserProfileAtStartUp = loadUserProfileAtStartUp;
@@ -288,7 +288,7 @@ export class KeycloakService {
    */
   public async logout(redirectUri?: string) {
     const options = {
-      redirectUri
+      redirectUri,
     };
 
     await this._instance.logout(options);
@@ -306,7 +306,7 @@ export class KeycloakService {
    * A void Promise if the register flow was successful.
    */
   public async register(
-    options: Keycloak.KeycloakLoginOptions = { action: 'register' }
+    options: Keycloak.KeycloakLoginOptions = { action: 'register' },
   ) {
     await this._instance.register(options);
   }
@@ -411,7 +411,7 @@ export class KeycloakService {
     if (this._silentRefresh) {
       if (this.isTokenExpired()) {
         throw new Error(
-          'Failed to refresh the token, or the session is expired'
+          'Failed to refresh the token, or the session is expired',
         );
       }
 
@@ -446,7 +446,7 @@ export class KeycloakService {
 
     if (!this._instance.authenticated) {
       throw new Error(
-        'The user profile was not loaded as the user is not logged in.'
+        'The user profile was not loaded as the user is not logged in.',
       );
     }
 
@@ -499,10 +499,10 @@ export class KeycloakService {
         token
           ? headers.set(
               this._authorizationHeaderName,
-              this._bearerPrefix + token
+              this._bearerPrefix + token,
             )
-          : headers
-      )
+          : headers,
+      ),
     );
   }
 

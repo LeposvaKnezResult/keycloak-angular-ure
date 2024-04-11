@@ -12,27 +12,32 @@ function initializeKeycloak(keycloak: KeycloakService) {
       config: {
         realm: 'keycloak-angular-sandbox',
         url: 'http://localhost:8080',
-        clientId: 'keycloak-angular'
+        clientId: 'keycloak-angular',
       },
       initOptions: {
         onLoad: 'check-sso',
         silentCheckSsoRedirectUri:
-          window.location.origin + '/assets/silent-check-sso.html'
-      }
+          window.location.origin + '/assets/silent-check-sso.html',
+      },
     });
 }
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, MatDatepickerModule,KeycloakAngularModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    MatDatepickerModule,
+    KeycloakAngularModule,
+  ],
   providers: [
     {
       provide: APP_INITIALIZER,
       useFactory: initializeKeycloak,
       multi: true,
-      deps: [KeycloakService]
-    }
+      deps: [KeycloakService],
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

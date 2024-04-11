@@ -11,7 +11,7 @@ import {
   Router,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
-  UrlTree
+  UrlTree,
 } from '@angular/router';
 
 import { KeycloakService } from './keycloak.service';
@@ -34,7 +34,7 @@ export abstract class KeycloakAuthGuard implements CanActivate {
 
   constructor(
     protected router: Router,
-    protected keycloakAngular: KeycloakService
+    protected keycloakAngular: KeycloakService,
   ) {}
 
   /**
@@ -46,7 +46,7 @@ export abstract class KeycloakAuthGuard implements CanActivate {
    */
   async canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    state: RouterStateSnapshot,
   ): Promise<boolean | UrlTree> {
     try {
       this.authenticated = await this.keycloakAngular.isLoggedIn();
@@ -55,7 +55,7 @@ export abstract class KeycloakAuthGuard implements CanActivate {
       return await this.isAccessAllowed(route, state);
     } catch (error) {
       throw new Error(
-        'An error happened during access validation. Details:' + error
+        'An error happened during access validation. Details:' + error,
       );
     }
   }
@@ -71,6 +71,6 @@ export abstract class KeycloakAuthGuard implements CanActivate {
    */
   abstract isAccessAllowed(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    state: RouterStateSnapshot,
   ): Promise<boolean | UrlTree>;
 }

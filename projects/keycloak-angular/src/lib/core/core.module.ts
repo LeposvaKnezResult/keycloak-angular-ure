@@ -20,8 +20,8 @@ import { KeycloakBearerInterceptor } from './interceptors/keycloak-bearer.interc
     {
       provide: HTTP_INTERCEPTORS,
       useClass: KeycloakBearerInterceptor,
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class CoreModule {}

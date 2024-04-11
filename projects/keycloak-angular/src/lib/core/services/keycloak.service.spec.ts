@@ -15,7 +15,7 @@ import { KeycloakService } from './keycloak.service';
 describe('KeycloakService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [KeycloakService]
+      providers: [KeycloakService],
     });
   });
 
@@ -23,7 +23,7 @@ describe('KeycloakService', () => {
     [KeycloakService],
     (service: KeycloakService) => {
       expect(service).toBeTruthy();
-    }
+    },
   ));
 
   describe('#loadExcludedUrls', () => {
@@ -38,7 +38,7 @@ describe('KeycloakService', () => {
         expect(urlPattern).toBeDefined();
         expect(urlPattern.test('http://url/home')).toBeTruthy();
         expect(httpMethods.length).toBe(0);
-      }
+      },
     ));
 
     it('should create the ExcludedUrlRegex objects if the bearerExcludedUrls arg is an mixed array of strings and ExcludedUrl objects', inject(
@@ -47,7 +47,7 @@ describe('KeycloakService', () => {
         const loadExcludedUrls = service['loadExcludedUrls'];
         const result = loadExcludedUrls([
           'home',
-          { url: 'public', httpMethods: ['GET'] }
+          { url: 'public', httpMethods: ['GET'] },
         ]);
         expect(result.length).toBe(2);
 
@@ -59,11 +59,11 @@ describe('KeycloakService', () => {
         const excludedRegex2 = result[1];
         expect(excludedRegex2.urlPattern).toBeDefined();
         expect(
-          excludedRegex2.urlPattern.test('https://url/public')
+          excludedRegex2.urlPattern.test('https://url/public'),
         ).toBeTruthy();
         expect(excludedRegex2.httpMethods.length).toBe(1);
         expect(excludedRegex2.httpMethods[0]).toBe('GET');
-      }
+      },
     ));
 
     it('should return the token getToken is called', inject(
@@ -71,22 +71,22 @@ describe('KeycloakService', () => {
       async (service: KeycloakService) => {
         service.updateToken = () => Promise.resolve(true);
         (service['_instance'] as Partial<Keycloak>) = {
-          token: 'testToken'
+          token: 'testToken',
         };
 
         const token = await service.getToken();
 
         expect(token).toEqual('testToken');
-      }
+      },
     ));
 
     it('should throw error if updateToken is called before initialization', inject(
       [KeycloakService],
       async (service: KeycloakService) => {
         await expectAsync(service.updateToken()).toBeRejectedWithError(
-          /not initialized/
+          /not initialized/,
         );
-      }
+      },
     ));
   });
 
@@ -97,15 +97,15 @@ describe('KeycloakService', () => {
         (service['_instance'] as Partial<Keycloak>) = {
           resourceAccess: {
             client1: {
-              roles: ['client1Role1', 'client1Role2']
+              roles: ['client1Role1', 'client1Role2'],
             },
             client2: {
-              roles: ['client2Role1', 'client2Role2']
-            }
+              roles: ['client2Role1', 'client2Role2'],
+            },
           },
           realmAccess: {
-            roles: ['realmRole1', 'realmRole2']
-          }
+            roles: ['realmRole1', 'realmRole2'],
+          },
         };
 
         const userRoles = service.getUserRoles();
@@ -117,10 +117,10 @@ describe('KeycloakService', () => {
             'client2Role1',
             'client2Role2',
             'realmRole1',
-            'realmRole2'
-          ])
+            'realmRole2',
+          ]),
         );
-      }
+      },
     ));
 
     it('should return only resource roles if realmRoles is set to false', inject(
@@ -129,15 +129,15 @@ describe('KeycloakService', () => {
         (service['_instance'] as Partial<Keycloak>) = {
           resourceAccess: {
             client1: {
-              roles: ['client1Role1', 'client1Role2']
+              roles: ['client1Role1', 'client1Role2'],
             },
             client2: {
-              roles: ['client2Role1', 'client2Role2']
-            }
+              roles: ['client2Role1', 'client2Role2'],
+            },
           },
           realmAccess: {
-            roles: ['realmRole1', 'realmRole2']
-          }
+            roles: ['realmRole1', 'realmRole2'],
+          },
         };
 
         const userRoles = service.getUserRoles(false);
@@ -147,10 +147,10 @@ describe('KeycloakService', () => {
             'client1Role1',
             'client1Role2',
             'client2Role1',
-            'client2Role2'
-          ])
+            'client2Role2',
+          ]),
         );
-      }
+      },
     ));
 
     it('should return only resource roles from the given resource if realmRoles is set to false and resource is specified', inject(
@@ -159,23 +159,23 @@ describe('KeycloakService', () => {
         (service['_instance'] as Partial<Keycloak>) = {
           resourceAccess: {
             client1: {
-              roles: ['client1Role1', 'client1Role2']
+              roles: ['client1Role1', 'client1Role2'],
             },
             client2: {
-              roles: ['client2Role1', 'client2Role2']
-            }
+              roles: ['client2Role1', 'client2Role2'],
+            },
           },
           realmAccess: {
-            roles: ['realmRole1', 'realmRole2']
-          }
+            roles: ['realmRole1', 'realmRole2'],
+          },
         };
 
         const userRoles = service.getUserRoles(false, 'client2');
 
         expect(userRoles).toEqual(
-          jasmine.arrayWithExactContents(['client2Role1', 'client2Role2'])
+          jasmine.arrayWithExactContents(['client2Role1', 'client2Role2']),
         );
-      }
+      },
     ));
 
     it('should return only resource roles from the given resource and realm roles if realmRoles is set to true and resource is specified', inject(
@@ -184,15 +184,15 @@ describe('KeycloakService', () => {
         (service['_instance'] as Partial<Keycloak>) = {
           resourceAccess: {
             client1: {
-              roles: ['client1Role1', 'client1Role2']
+              roles: ['client1Role1', 'client1Role2'],
             },
             client2: {
-              roles: ['client2Role1', 'client2Role2']
-            }
+              roles: ['client2Role1', 'client2Role2'],
+            },
           },
           realmAccess: {
-            roles: ['realmRole1', 'realmRole2']
-          }
+            roles: ['realmRole1', 'realmRole2'],
+          },
         };
 
         const userRoles = service.getUserRoles(true, 'client1');
@@ -202,10 +202,10 @@ describe('KeycloakService', () => {
             'client1Role1',
             'client1Role2',
             'realmRole1',
-            'realmRole2'
-          ])
+            'realmRole2',
+          ]),
         );
-      }
+      },
     ));
   });
 });
